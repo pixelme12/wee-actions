@@ -5,44 +5,44 @@ on:
   push:
      branches: ["rk"]
      paths:
-        - '.github/workflows/build-rk.yml'
-        - '.github/workflows/rk-aosp.yml'
+        #- '.github/workflows/build-rk.yml'
+        #- '.github/workflows/rk-aosp.yml'
         - '.github/workflows/rk-miui.yml'
   
 jobs:
-  build-munch-aosp-kernel:
+  #{build-munch-aosp-kernel:
     uses: ./.github/workflows/rk-aosp.yml
     with:
       IS_RELEASE: true
       DEVICE_CODE: 'munch'
-      USE_KERNELSU: true
-  build-alioth-aosp-kernel:
+      USE_KERNELSU: true}
+  #{build-alioth-aosp-kernel:
     uses: ./.github/workflows/rk-aosp.yml
     with:
       IS_RELEASE: true
       DEVICE_CODE: 'alioth'
-      USE_KERNELSU: true
-  build-apollo-aosp-kernel:
+      USE_KERNELSU: true)
+  #{build-apollo-aosp-kernel:
     uses: ./.github/workflows/rk-aosp.yml
     with:
       IS_RELEASE: true
       DEVICE_CODE: 'apollo'
-      USE_KERNELSU: true
-  build-munch-miui-kernel:
+      USE_KERNELSU: true)
+  #{build-munch-miui-kernel:
     uses: ./.github/workflows/rk-miui.yml
     with:
       IS_RELEASE: true
       DEVICE_CODE: 'munch'
-      USE_KERNELSU: true
-  build-alioth-miui-kernel:
+      USE_KERNELSU: true}
+  build-umi-miui-kernel:
     uses: ./.github/workflows/rk-miui.yml
     with:
       IS_RELEASE: true
-      DEVICE_CODE: 'alioth'
+      DEVICE_CODE: 'umi'
       USE_KERNELSU: true
-  build-apollo-miui-kernel:
+  #{build-apollo-miui-kernel:
     uses: ./.github/workflows/rk-miui.yml
     with:
       IS_RELEASE: true
       DEVICE_CODE: 'apollo'
-      USE_KERNELSU: true
+      USE_KERNELSU: true}
