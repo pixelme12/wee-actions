@@ -16,12 +16,12 @@ on:
         required: true
         default: true
         type: boolean
-      CLANG_ARGS:
-        required: false
-        default: 'NM=llvm-nm LLVM=1 LLVM_IAS=1'
-        type: string
+      #CLANG_ARGS:
+      #  required: false
+      #  default: 'NM=llvm-nm LLVM=1 LLVM_IAS=1'
+      #  type: string
       USE_CACHE:
-        required: false
+        required: true
         type: boolean
         default: true
   
@@ -115,7 +115,7 @@ jobs:
         KSU_VERSION=$((10000+200+`git rev-list --count HEAD`))
         cd $KERNEL_DIR
 
-        make ${{ env.DEF_CONFIG }} O=out CC=clang ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- NM=llvm-nm OBJDUMP=llvm-objdump STRIP=llvm-strip
+        make -j$(nproc --all) ${{ env.DEF_CONFIG }} O=out CC=clang ARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android-
         
         if ${{ inputs.USE_KERNELSU }} ; then
           echo "CONFIG_LOCALVERSION=" && grep "CONFIG_LOCALVERSION" out/.config
@@ -147,8 +147,15 @@ jobs:
         KBUILD_COMPILER_STRING="$(clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
         KBUILD_BUILD_HOST=GitHub-Action
         KBUILD_BUILD_USER=$(echo ${{ github.actor }} | tr A-Z a-z)       
-        make -j$(nproc --all) O=out CC=clang ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- NM=llvm-nm OBJDUMP=llvm-objdump STRIP=llvm-strip
-  
+        make -j$(nproc --all) O=out CC=clang ARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android-
+        
+        #PATH="$CLANG_DIR:$GCC_DIR:${PATH}" \
+        #make -j$(nproc --all) O=out \
+	      #        ARCH=arm64 \
+        #        CC=clang \
+        #        CLANG_TRIPLE=aarch64-linux-gnu- \
+        #        CROSS_COMPILE=aarch64-linux-android-
+
     - name: ZIP Kernel
       run: |
         mkdir image_output
