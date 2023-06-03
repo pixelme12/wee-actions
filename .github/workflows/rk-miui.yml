@@ -115,7 +115,7 @@ jobs:
         KSU_VERSION=$((10000+200+`git rev-list --count HEAD`))
         cd $KERNEL_DIR
 
-        make -j$(nproc --all) ${{ env.DEF_CONFIG }} O=out CC=clang ARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android-
+        make ${{ env.DEF_CONFIG }} O=out CC=clang ARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android-
         
         if ${{ inputs.USE_KERNELSU }} ; then
           echo "CONFIG_LOCALVERSION=" && grep "CONFIG_LOCALVERSION" out/.config
